@@ -55,8 +55,6 @@ class ProdutoFragment : Fragment() {
             listaNovaProduto.add(produto)
             produtoAdapter.atualizarListaProduto(listaNovaProduto)
             exibirRecyclerView()
-        }else{
-            exibirMensagemErro()
         }
     }
 
@@ -73,17 +71,27 @@ class ProdutoFragment : Fragment() {
         val nomeProduto = binding.etNomeProduto.text.toString()
         val descricaoProduto = binding.etDetalheProduto.text.toString()
 
-        if (nomeProduto.isNotEmpty() && descricaoProduto.isNotEmpty()) {
+        if (nomeProduto.isEmpty()) {
+            exibirMensagemErroNomeProduto()
+            //limparCampoEdicao()
+        } else if (descricaoProduto.isEmpty()) {
+            exibirMensagemErroDetalheProduto()
+        } else {
             limparCampoEdicao()
             return Produto(nomeProduto, descricaoProduto)
         }
+
         return null
     }
 
-    private fun exibirMensagemErro() {
+    private fun exibirMensagemErroNomeProduto() {
         binding.etNomeProduto.error = "Por favor preencha o campo de nome"
+    }
+
+    private fun exibirMensagemErroDetalheProduto() {
         binding.etDetalheProduto.error = "Por favor preencha o campo de detalhe"
     }
+
 
     private fun limparCampoEdicao() {
         binding.etNomeProduto.text.clear()
