@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.zup.listacompras.CHAVE_PRODUTO
+import br.com.zup.listacompras.DETALHE_PRODUTO_MENSAGEM_ERRO
+import br.com.zup.listacompras.NOME_PRODUTO_MENSAGEM_ERRO
 import br.com.zup.listacompras.R
 import br.com.zup.listacompras.adapter.ProdutoAdapter
 import br.com.zup.listacompras.databinding.FragmentProdutoBinding
@@ -33,7 +36,6 @@ class ProdutoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         exibirRecyclerView()
 
         binding.bvAdicionar.setOnClickListener {
@@ -85,11 +87,11 @@ class ProdutoFragment : Fragment() {
     }
 
     private fun exibirMensagemErroNomeProduto() {
-        binding.etNomeProduto.error = "Por favor preencha o campo de nome"
+        binding.etNomeProduto.error = NOME_PRODUTO_MENSAGEM_ERRO
     }
 
     private fun exibirMensagemErroDetalheProduto() {
-        binding.etDetalheProduto.error = "Por favor preencha o campo de detalhe"
+        binding.etDetalheProduto.error = DETALHE_PRODUTO_MENSAGEM_ERRO
     }
 
 
