@@ -1,11 +1,14 @@
 package br.com.zup.listacompras.produto
 
+import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.listacompras.DETALHE_PRODUTO_MENSAGEM_ERRO
@@ -20,7 +23,7 @@ internal class ProdutoFragmentTest {
 
     @Test
     fun showError_whenBothFieldsAreEmpty() {
-        val scenario = launchFragmentInContainer<ProdutoFragment>()
+        launchFragmentInContainer<ProdutoFragment>()
         onView(withId(R.id.bvAdicionar)).perform(click())
         onView(withId(R.id.etNomeProduto))
             .check(matches(hasErrorText(NOME_PRODUTO_MENSAGEM_ERRO)))
@@ -36,8 +39,10 @@ internal class ProdutoFragmentTest {
 
     @Test
     fun showError_whenProductNameIsEmpty() {
-        val scenario = launchFragmentInContainer<ProdutoFragment>()
-        onView(withId(R.id.etDetalheProduto)).perform(typeText("batata"))
+        launchFragmentInContainer<ProdutoFragment>()
+        onView(withId(R.id.etDetalheProduto))
+            .perform(typeText("batata"))
+            .check(matches(hasNoErrorText()))
         closeSoftKeyboard()
         onView(withId(R.id.bvAdicionar)).perform(click())
         onView(withId(R.id.etNomeProduto))
@@ -46,10 +51,10 @@ internal class ProdutoFragmentTest {
 
     @Test
     fun showError_whenProductDetailIsEmpty() {
-        val scenario = launchFragmentInContainer<ProdutoFragment>()
+        launchFragmentInContainer<ProdutoFragment>()
         onView(withId(R.id.etNomeProduto))
             .perform(typeText("batata"))
-        //.check(matches(hasNoErrorText()))
+            .check(matches(hasNoErrorText()))
         closeSoftKeyboard()
         onView(withId(R.id.bvAdicionar)).perform(click())
         onView(withId(R.id.etDetalheProduto))
@@ -64,11 +69,13 @@ internal class ProdutoFragmentTest {
 
     @Test
     fun checkProductOnList_whenBothFieldsAreValid() {
-        val scenario = launchFragmentInContainer<ProdutoFragment>()
+        launchFragmentInContainer<ProdutoFragment>()
         onView(withId(R.id.etNomeProduto))
             .perform(typeText("batata"))
+            .check(matches(hasNoErrorText()))
         onView(withId(R.id.etDetalheProduto))
             .perform(typeText("batata frita deliciosa"))
+            .check(matches(hasNoErrorText()))
         closeSoftKeyboard()
         onView(withId(R.id.bvAdicionar)).perform(click())
         onView(withId(R.id.imageView2))
@@ -76,6 +83,19 @@ internal class ProdutoFragmentTest {
         onView(withId(R.id.tvNomeProduto))
             .check(matches(isDisplayed()))
 
+    }
+
+    fun hasNoErrorText(): BoundedMatcher<View?, EditText> {
+        return object : BoundedMatcher<View?, EditText>(EditText::class.java) {
+
+            override fun matchesSafely(view: EditText): Boolean {
+                return view.error == null
+            }
+
+            override fun describeTo(description: org.hamcrest.Description?) {
+                description?.appendText("has no error text: ");
+            }
+        }
     }
 
 
