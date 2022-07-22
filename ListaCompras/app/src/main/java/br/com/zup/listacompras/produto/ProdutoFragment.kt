@@ -45,7 +45,8 @@ class ProdutoFragment : Fragment() {
 
     private fun exibirRecyclerView() {
         binding.rvListaProduto.adapter = produtoAdapter
-        binding.rvListaProduto.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        binding.rvListaProduto.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     }
 
     private fun adicionarItemListaProduto() {
@@ -53,7 +54,7 @@ class ProdutoFragment : Fragment() {
 
         val produto = recuperarDadosCampoEdicao()
 
-        if (produto != null){
+        if (produto != null) {
             listaNovaProduto.add(produto)
             produtoAdapter.atualizarListaProduto(listaNovaProduto)
             exibirRecyclerView()
@@ -73,9 +74,11 @@ class ProdutoFragment : Fragment() {
         val nomeProduto = binding.etNomeProduto.text.toString()
         val descricaoProduto = binding.etDetalheProduto.text.toString()
 
-        if (nomeProduto.isEmpty()) {
+        if (nomeProduto.isEmpty() && descricaoProduto.isEmpty()) {
             exibirMensagemErroNomeProduto()
-            //limparCampoEdicao()
+            exibirMensagemErroDetalheProduto()
+        } else if (nomeProduto.isEmpty()) {
+            exibirMensagemErroNomeProduto()
         } else if (descricaoProduto.isEmpty()) {
             exibirMensagemErroDetalheProduto()
         } else {
