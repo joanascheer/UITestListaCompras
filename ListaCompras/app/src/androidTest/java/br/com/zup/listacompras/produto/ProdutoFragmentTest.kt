@@ -19,14 +19,19 @@ import org.junit.runner.RunWith
 internal class ProdutoFragmentTest {
 
     @Test
-    fun showError_whenBothFieldsAreEmpty(){
+    fun showError_whenBothFieldsAreEmpty() {
         val scenario = launchFragmentInContainer<ProdutoFragment>()
         onView(withId(R.id.bvAdicionar)).perform(click())
         onView(withId(R.id.etNomeProduto))
             .check(matches(hasErrorText(NOME_PRODUTO_MENSAGEM_ERRO)))
         onView(withId(R.id.etDetalheProduto))
-            .check(matches(hasErrorText(
-            DETALHE_PRODUTO_MENSAGEM_ERRO)))
+            .check(
+                matches(
+                    hasErrorText(
+                        DETALHE_PRODUTO_MENSAGEM_ERRO
+                    )
+                )
+            )
     }
 
     @Test
@@ -44,15 +49,20 @@ internal class ProdutoFragmentTest {
         val scenario = launchFragmentInContainer<ProdutoFragment>()
         onView(withId(R.id.etNomeProduto))
             .perform(typeText("batata"))
-            //.check(matches(hasNoErrorText()))
+        //.check(matches(hasNoErrorText()))
         closeSoftKeyboard()
         onView(withId(R.id.bvAdicionar)).perform(click())
         onView(withId(R.id.etDetalheProduto))
-            .check(matches(hasErrorText(
-                DETALHE_PRODUTO_MENSAGEM_ERRO)))
+            .check(
+                matches(
+                    hasErrorText(
+                        DETALHE_PRODUTO_MENSAGEM_ERRO
+                    )
+                )
+            )
     }
 
-
+    @Test
     fun checkProductOnList_whenBothFieldsAreValid() {
         val scenario = launchFragmentInContainer<ProdutoFragment>()
         onView(withId(R.id.etNomeProduto))
@@ -67,8 +77,6 @@ internal class ProdutoFragmentTest {
             .check(matches(isDisplayed()))
 
     }
-
-
 
 
 }
